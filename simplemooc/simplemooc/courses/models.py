@@ -24,6 +24,10 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('courses:details', (), {'slug': self.slug})
+
     class Meta:
         db_table = 'courses'
         verbose_name = 'curso'
