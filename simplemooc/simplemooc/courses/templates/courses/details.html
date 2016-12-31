@@ -31,7 +31,38 @@
                 {% else %}
                     <img src="{% static 'img/course-image.png' %}">
                 {% endif %}
+
+                <h4>Dúvidas?</h4>
+                <p><a href="#contact" class="pure-button">Fale Conosco</a></p>
             </div>
         </div>
-    </div>        
+    </div>  
+
+    <div class="pure-g-r content-ribbon" id="contact">
+        <div class="pure-u-1">
+            <h3>Tire suas dúvidas sobre o Curso</h3>
+
+            {% if is_valid %}
+                <p>Formulário enviado com sucesso!</p>
+            {% endif %}
+            
+            <form action="." method="post" class="pure-form pure-form-aligned">
+                {% csrf_token %}
+                <fieldset>
+                    {% for field in form %}
+                        <div class="pure-control-group">
+                            {{ field.label_tag }}
+                            {{ field }}                        
+                            {{ field.errors }}
+                        </div>
+                    {% endfor %}
+                    <div class="pure-controls">
+                        <button type="submit" class="pure-button pure-button-primary">
+                            Enviar
+                        </button>
+                    </div>
+                </fieldset>      
+            </form>
+        </div>
+    </div>
 {% endblock %}
