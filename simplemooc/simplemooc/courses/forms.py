@@ -1,6 +1,7 @@
 from django.core.mail import send_mail
 from django.conf import settings
 from django import forms
+from simplemooc.core.mail import send_mail_template
 
 
 class ContactCourse(forms.Form):
@@ -10,13 +11,14 @@ class ContactCourse(forms.Form):
         label='Mensagem/Dúvida', widget=forms.Textarea
     )
 
-    def send_mail(self):
+    def send_mail(self, course):
         subject = '[%s] Contato' % course
-        message = 'Nome: %(name)s; Email: %(email)s; %(message)s'
         context = {
             'name': self.cleaned_data['name'],
             'email': self.cleaned_data['email'],
             'message': self.cleaned_data['message']
         }
-        message = message % context
-        send_mail(subject, message, )
+        template_name = 'courses/contact_email.html'
+        send_mail_template(
+            subject, template_name, context, [settings.CONTACT_EMAIL]
+        )
