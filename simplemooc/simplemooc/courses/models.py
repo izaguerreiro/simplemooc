@@ -9,7 +9,7 @@ class CourseManager(models.Manager):
         )
 
 
-class Course(models.Model):
+class Course(models.Model): 
     name = models.CharField('nome', max_length=255)
     slug = models.SlugField('atalho')
     description = models.TextField('descrição simples', blank=True)
