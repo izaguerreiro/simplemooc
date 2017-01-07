@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+
 
 
 class CourseManager(models.Manager):
@@ -33,3 +35,32 @@ class Course(models.Model):
         verbose_name = 'curso'
         verbose_name_plural = 'cursos'
         ordering = ['name']
+
+
+class Enrollment(models.Model):
+    STATUS_CHOICES = (
+        (0, 'Pendente'),
+        (1, 'Aprovado'),
+        (2, 'Cancelado')
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name='usuário',
+        related_name='enrollments'
+    )
+    course = models.ForeignKey(
+        Course, verbose_name='curso', related_name='enrollments'
+    )
+    status = models.IntegerField(
+        'status', choices=STATUS_CHOICES, default=0, blank=True
+    )
+    created_at = models.DateTimeField('criado em', auto_now_add=True)
+    updated_at = models.DateTimeField('atualizado em', auto_now_add=True)
+
+    def active(self):
+        self.status = 1
+        self.save()
+
+    class Meta:
+        verbose_name = 'inscrição'
+        verbose_name_plural = 'inscrições'
+        unique_together = (('user', 'course'),)
