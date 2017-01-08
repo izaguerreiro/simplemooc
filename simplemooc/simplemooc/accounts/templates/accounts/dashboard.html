@@ -41,7 +41,7 @@
                     {% for enrollment in enrollments %}
                         <div class="well">
                             <h3>{{ enrollment.course }} ({{ enrollment.start_date|date:'d/m/Y'|default:'Sem data' }})</h3>
-                            <p>{{ enrollment.course.description|linebreaks }}</p>
+                            {{ enrollment.course.description|linebreaks }}
                             <div class="pure-controls">
                                 <a href="{% url 'courses:announcements' enrollment.course.slug %}" class="pure-button button-primary">Acessar</a>
                                 <a href="{% url 'courses:undo_enrollment' enrollment.course.slug %}" class="pure-button button-error">Cancelar</a>

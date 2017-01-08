@@ -3,10 +3,14 @@
 {% block dashboard_content %}
     <div class="well">
         {% for announcement in announcements %}
-        <h2>{{ announcement.title }}</h2>
-        <p>{{ announcement.content|linebreaks }}</p>
+        <h2>
+            <a href="{% url 'courses:show_announcement' course.slug announcement.pk %}">
+                {{ announcement.title }}
+            </a>
+        </h2>
+        {{ announcement.content|linebreaks }}
         <p>
-            <a href="#comments">
+            <a href="{% url 'courses:show_announcement' course.slug announcement.pk %}#comments">
                 <i class="fa fa-comments-o"></i>
                 {% with comments_count=announcement.comments.count %}
                     {{ comments_count }} Comentário{{ comments_count|pluralize }}
