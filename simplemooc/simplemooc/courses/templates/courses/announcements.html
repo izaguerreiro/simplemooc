@@ -2,13 +2,19 @@
 
 {% block dashboard_content %}
     <div class="well">
-        <h2></h2>
-        <p></p>
+        {% for announcement in announcements %}
+        <h2>{{ announcement.title }}</h2>
+        <p>{{ announcement.content|linebreaks }}</p>
         <p>
             <a href="#comments">
                 <i class="fa fa-comments-o"></i>
-                10 Comentários
+                {% with comments_count=announcement.comments.count %}
+                    {{ comments_count }} Comentário{{ comments_count|pluralize }}
+                {% endwith %}
             </a>
         </p>
+        {% empty %}
+            <h2>Nenhum anúncio criado</h2>
+        {% endfor %}    
     </div>
 {% endblock %}
