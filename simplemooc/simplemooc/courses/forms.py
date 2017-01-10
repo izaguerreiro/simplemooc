@@ -19,7 +19,7 @@ class ContactCourse(forms.Form):
             'email': self.cleaned_data['email'],
             'message': self.cleaned_data['message']
         }
-        template_name = 'courses/contact_email.html'
+        template_name = 'courses/contact-email.html'
         send_mail_template(
             subject, template_name, context, [settings.CONTACT_EMAIL]
         )

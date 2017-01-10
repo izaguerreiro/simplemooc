@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from simplemooc.core.mail import send_mail_template
 
 
 
@@ -100,3 +101,11 @@ class Comment(models.Model):
         verbose_name = 'comentário'
         verbose_name_plural = 'comentários'
         ordering = ['created_at']
+
+
+def post_save_announcement(instance, created, **kwargs):
+    subject = instance.title
+    template_name = 'courses/announcement-mail.html'
+    context = {'announcement': announcement}    
+    send_mail_template(subject, template_name, context, recipient_list)
+
