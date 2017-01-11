@@ -4,11 +4,16 @@
 	{% for lesson in course.release_lessons %}
 		<div class="well">
 			<h2><a href="">{{ lesson }}</a></h2>
-			<p></p>
+			<p>
+				{{ lesson.description|truncatewords:'20' }}
+				<br />
+				<a href=""></a>
+				<i class="fa fa-eye">Acessar aula</i>
+			</p>
 		</div>
 	{% empty %}
 		<div class="well">
-			<h2></h2>
+			<h2>Nenhuma aula disponível.</h2>
 		</div>
 	{% endfor %}
 {% endblock %}
