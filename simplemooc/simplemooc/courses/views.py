@@ -89,3 +89,12 @@ def show_announcement(request, slug, pk):
     template_name = 'courses/show-announcement.html'
     context = {'course': course, 'announcement': announcement, 'form': form}
     return render(request, template_name, context)
+
+
+@login_required
+@enrollment_required
+def lessons(request, slug):
+    course = request.course
+    template_name = 'courses/lessons.html'
+    context = {'course': course}
+    return render(request, template_name, context)
