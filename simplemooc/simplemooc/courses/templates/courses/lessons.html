@@ -1,11 +1,14 @@
 {% extends 'courses/course-dashboard.html' %}
 
 {% block dashboard_content %}
-	<div class="well">
-		<h2></h2>
-	</div>
-	<div class="well">
-		<h2><a href=""></a></h2>
-		<p></p>
-	</div>
+	{% for lesson in course.release_lessons %}
+		<div class="well">
+			<h2><a href="">{{ lesson }}</a></h2>
+			<p></p>
+		</div>
+	{% empty %}
+		<div class="well">
+			<h2></h2>
+		</div>
+	{% endfor %}
 {% endblock %}
