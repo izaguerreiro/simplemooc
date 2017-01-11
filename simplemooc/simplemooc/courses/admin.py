@@ -9,7 +9,7 @@ class CourseAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
-class MaterialInlineAdmin(admin.TabularInline):
+class MaterialInlineAdmin(admin.StackedInline):
     model = Material
 
 
@@ -22,4 +22,4 @@ class LessonAdmin(admin.ModelAdmin):
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
-admin.site.register([Enrollment, Announcement, Comment])
+admin.site.register([Enrollment, Announcement, Comment, Material])
