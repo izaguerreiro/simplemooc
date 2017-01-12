@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from simplemooc.core.mail import send_mail_template
 
 
@@ -33,7 +34,7 @@ class Course(models.Model):
 
     def release_lessons(self):
         today = timezone.now().date()
-        return self.lessons.filter(release_date__gte=today)
+        return self.lessons.filter(release_date__lte=today)
 
     class Meta:
         db_table = 'courses'
