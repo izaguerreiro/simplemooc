@@ -1,9 +1,19 @@
 {% extends 'courses/course-dashboard.html' %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li>/</li>
+    <li><a href="{% url 'courses:lessons' course.slug %}">Aulas</a></li>
+{% endblock %}
+
 {% block dashboard_content %}
 	{% for lesson in lessons %}
 		<div class="well">
-			<h2><a href="">{{ lesson }}</a></h2>
+			<h2>
+				<a href="{% url 'courses:lesson' course.slug lesson.pk %}">
+					{{ lesson }}
+				</a>
+			</h2>
 			<p>
 				{{ lesson.description|truncatewords:'20' }}
 				<br />

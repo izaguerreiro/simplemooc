@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^(?P<slug>[\w_-]+)/anuncios/(?P<pk>\d+)/$', views.show_announcement, name='show_announcement'),
     url(r'^(?P<slug>[\w_-]+)/aulas/$', views.lessons, name='lessons'),
     url(r'^(?P<slug>[\w_-]+)/aulas/(?P<pk>\d+)/$', views.lesson, name='lesson'),
+    url(r'^(?P<slug>[\w_-]+)/materiais/(?P<pk>\d+)/$', views.material, name='material'),
 ]

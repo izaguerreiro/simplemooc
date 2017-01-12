@@ -34,7 +34,7 @@ class Course(models.Model):
 
     def release_lessons(self):
         today = timezone.now().date()
-        return self.lessons.filter(release_date__lte=today)
+        return self.lessons.filter(release_date__gte=today)
 
     class Meta:
         db_table = 'courses'

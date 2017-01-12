@@ -1,11 +1,19 @@
 {% extends 'courses/course-dashboard.html' %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+    <li>/</li>
+    <li><a href="{% url 'courses:lessons' course.slug %}">Aulas</a></li>
+    <li>/</li>
+    <li><a href="{% url 'courses:lesson' course.slug lesson.pk %}">{{ lesson }}</a></li>
+{% endblock %}
+
 {% block dashboard_content %}
 	<div class="well">
-		<h2></h2>
-		<p></p>
+		<h2><a href="{% url 'courses:lesson' course.slug lesson.pk %}">{{ lesson }}</a></h2>
+		{{ lesson.description|linebreaks }}
 		<p>
-			<h4></h4>
+			<h4>Materiais da aula</h4>
 			<table class="pure-table full">
 				<thead>
 					<tr>
@@ -14,14 +22,22 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td></td>
-						<td>
-							<a href="">
-								<i class="fa fa-video-camera">Acessar</i>
-							</a>
-						</td>
-					</tr>
+					{% for material in lesson.materials.all %}
+						<tr class="{% cycle '' 'pure-table-odd' %}">
+							<td>{{ material }}</td>
+							<td>
+								{% if material.is_embedded %}
+									<a href="{% url 'courses:material' course.slug material.pk %}">
+										<i class="fa fa-video-camera"> Acessar</i>
+									</a>
+								{% else %}
+									<a href="{{ material.file.url }}" target="_blank">
+										<i class="fa fa-download"> Baixar</i>
+									</a>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 		</p>
