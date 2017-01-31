@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^', include('simplemooc.core.urls', namespace='core')),
     url(r'^conta/', include('simplemooc.accounts.urls', namespace='accounts')),
     url(r'^cursos/', include('simplemooc.courses.urls', namespace='courses')),
+    url(r'^forum/', include('simplemooc.threads.urls', namespace='threads')),
     url(r'^admin/', admin.site.urls),
 ]
 
