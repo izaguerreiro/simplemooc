@@ -15,19 +15,19 @@
     			<ul>
     				<li class="pure-menu-heading">Tópicos do Fórum</li>
     				<li>
-    					<a href="#">
+    					<a href="?order=recent">
     						<i class="fa fa-refresh"></i>
     						Mais Recentes
     					</a>
     				</li>
     				<li>
-    					<a href="#">
+    					<a href="?order=views">
     						<i class="fa fa-eye"></i>
     						Mais Visualizados
     					</a>
     				</li>
     				<li>
-    					<a href="#">
+    					<a href="?order=answers">
     						<i class="fa fa-comments"></i>
     						Mais Comentados
     					</a>
@@ -72,11 +72,21 @@
 	    		{% endfor %}
 
 	    		<ul class="pagination pagination-centered">
-		    		{% page in paginator.page_range %}
-		    		<li>
-		    			<a href=""></a>
-		    		</li>
+	    			{% if page_obj.has_previous %}
+	    				<li>
+	    					<a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+	    				</li>
+	    			{% endif %}
+		    		{% for page in paginator.page_range %}
+			    		<li {% if page == page_obj.number %} class="active" {% endif %}>
+			    			<a href="?page={{ page }}">{{ page }}</a>
+			    		</li>
 		    		{% endfor %}
+		    		{% if page_obj.has_next %}
+	    				<li>
+	    					<a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+	    				</li>
+	    			{% endif %}
 		    	</ul>
     		</div>
     	</div>
