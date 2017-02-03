@@ -18,6 +18,10 @@ class ThreadView(ListView):
     		queryset = queryset.order_by('-views')
     	elif order == 'answers':
     		queryset = queryset.order_by('-answers')
+    	tag = self.kwargs.get('tags', '')
+    	if tag:
+    		queryset = queryset.filter(tags__slug__icontains=tag)
+    		print(queryset)
     	return queryset
 
     def get_context_data(self, **kwargs):
