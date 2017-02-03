@@ -32,12 +32,6 @@
     						Mais Comentados
     					</a>
     				</li>
-    				<li>
-    					<a href="#">
-    						<i class="fa fa-refresh"></i>
-    						Mais Recentes
-    					</a>
-    				</li>
     				<li class="pure-menu-heading">Tags</li>
     				{% for tag in tags %}
 	    				<li>
@@ -74,17 +68,17 @@
 	    		<ul class="pagination pagination-centered">
 	    			{% if page_obj.has_previous %}
 	    				<li>
-	    					<a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+	    					<a href="?page={{ page_obj.previous_page_number }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">Anterior</a>
 	    				</li>
 	    			{% endif %}
 		    		{% for page in paginator.page_range %}
 			    		<li {% if page == page_obj.number %} class="active" {% endif %}>
-			    			<a href="?page={{ page }}">{{ page }}</a>
+			    			<a href="?page={{ page }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">{{ page }}</a>
 			    		</li>
 		    		{% endfor %}
 		    		{% if page_obj.has_next %}
 	    				<li>
-	    					<a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+	    					<a href="?page={{ page_obj.next_page_number }}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">Próxima</a>
 	    				</li>
 	    			{% endif %}
 		    	</ul>
