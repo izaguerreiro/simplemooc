@@ -29,6 +29,7 @@ class Reply(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name='autor', related_name='replies'
     )
+    thread = models.ForeignKey(Thread, verbose_name='tópico', related_name='replies')
     correct = models.BooleanField('correta?', blank=True, default=False)
     created_at = models.DateTimeField('criado em', auto_now_add=True)
     updated_at = models.DateTimeField('atualizado em', auto_now_add=True)

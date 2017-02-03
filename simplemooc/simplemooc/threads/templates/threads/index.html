@@ -39,36 +39,46 @@
     					</a>
     				</li>
     				<li class="pure-menu-heading">Tags</li>
-    				<li>
-    					<a href="#" class="tags">
-    						<i class="fa fa-tag"></i>
-    						Lorem ipsum
-    					</a>
-    				</li>
-    				<li>
-    					<a href="#" class="tags">
-    						<i class="fa fa-tag"></i>
-    						Python
-    					</a>
-    				</li>
-    				<li>
-    					<a href="#" class="tags">
-    						<i class="fa fa-tag"></i>
-    						Django
-    					</a>
-    				</li>
-    				<li>
-    					<a href="#" class="tags">
-    						<i class="fa fa-tag"></i>
-    						Deploy
-    					</a>
-    				</li>
+    				{% for tag in tags %}
+	    				<li>
+	    					<a href="#" class="tags">
+	    						<i class="fa fa-tag"></i>
+	    						{{ tag }}
+	    					</a>
+	    				</li>
+	    			{% endfor %}
     			</ul>
     		</div>
     	</div>
     	<div class="pure-u-2-3">
     		<div class="inner">
-    			
+    			{% for thread in object_list %}
+	    			<div class="well">
+	    				<h3>
+	    					<a href="" title="">{{ thread.title }}</a>
+	    				</h3>
+	    				<h5>
+	    					Criado por {{ thread.author }} | {{ thread.answers }} resposta{{ thread.answers|pluralize }} | {{ thread.views }} visualizaç{{ thread.views|pluralize:"ão,ões" }}
+	    				</h5>
+	    				<p>
+	    					<i class="fa fa-tags"></i>
+	    					Tags: 
+	    					{% for tag in thread.tags.all %}
+	    						<a href="">{{ tag }}</a>{% if not forloop.last %},{% endif %}
+	    					{% endfor %}
+	    					<a href="" class="fright" style="float: right;">Atualizado a {{ thread.updated_at|timesince }} atrás</a>
+	    				</p>
+	    			</div>
+	    		{% endfor %}
+
+	    		<ul class="pagination pagination-centered">
+		    		{% page in paginator.page_range %}
+		    		<li>
+		    			<a href=""></a>
+		    		</li>
+		    		{% endfor %}
+		    	</ul>
     		</div>
     	</div>
+    </div>
 {% endblock %}
