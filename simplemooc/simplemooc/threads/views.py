@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView
 from .models import Thread
 
 #class ThreadView(View):
@@ -7,7 +7,7 @@ from .models import Thread
 #    	return render(request, 'threads/index.html')
 
 
-class ThreadView(ListView):
+class ThreadListView(ListView):
     paginate_by = 10
     template_name = 'threads/index.html'
 
@@ -25,8 +25,15 @@ class ThreadView(ListView):
     	return queryset
 
     def get_context_data(self, **kwargs):
-    	context = super(ThreadView, self).get_context_data(**kwargs)
+    	context = super(ThreadListView, self).get_context_data(**kwargs)
     	context['tags'] = Thread.tags.all()
     	return context
 
-index = ThreadView.as_view()
+
+class ThreadDetailView(DetailView):
+    model = Thread
+    template_name = 'forum/thread.html'
+
+
+index = ThreadListView.as_view()
+thread = ThreadDetailView.as_view()

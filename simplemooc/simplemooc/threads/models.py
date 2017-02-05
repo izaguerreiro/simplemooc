@@ -5,6 +5,7 @@ from django.conf import settings
 
 class Thread(models.Model):
     title = models.CharField('título', max_length=100)
+    slug = models.SlugField('slug', max_length=100, unique=True)
     body = models.TextField('mensagem')
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name='autor', related_name='threads'
