@@ -19,6 +19,10 @@ class Thread(models.Model):
     def __str__(self):
         return self.title
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('threads:thread', (), {'slug': self.slug})
+
     class Meta:
         verbose_name = 'tópico'
         verbose_name_plural = 'tópicos'
@@ -42,3 +46,21 @@ class Reply(models.Model):
         verbose_name = 'resposta'
         verbose_name_plural = 'respostas'
         ordering = ['-correct', 'created_at']
+
+
+def post_save_reply(created, instance, **kwargs):
+    instance.thread.answers = instance.thread.replies.count()
+    instance.thread.save()
+
+
+def post_delete_reply(instance, **kwargs):
+    instance.thread.answers = instance.thread.replies.count()
+    instance.thread.save()
+
+
+models.signals.post_save.connect(
+    post_save_reply, sender=Reply, dispatch_uid='post_save_reply'
+)
+models.signals.post_delete.connect(
+    post_delete_reply, sender=Reply, dispatch_uid='post_delete_reply'
+)

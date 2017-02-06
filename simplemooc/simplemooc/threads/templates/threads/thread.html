@@ -7,6 +7,8 @@
                 <li><a href="{% url 'core:home' %}">Início</a></li>
                 <li>/</li>
                 <li><a href="{% url 'threads:index' %}">Fórum de Discussões</a></li>
+                <li>/</li>
+                <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
             </ul>
         </div>
 
@@ -47,12 +49,16 @@
         <div class="pure-u-2-3">
             <div class="inner">
                 <div class="well">
-                    <h2><a href=""></a></h2>
-                    <p></p>
-                    <h5>Criado por</h5>
+                    <h2>{{ object }}</h2>
+                    <p>{{ object.body|linebreaks }}</p>
+                    <h5>Criado por {{ object.author }}</h5>
                     <p>
                         <i class="fa fa-tags"></i>
                         Tags: 
+                        {% for tag in object.tags.all %}
+                            <a href="{% url 'threads:index_tagged' tag.slug %}">{{ tag }}</a>{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                        <a href="{{ object.get_absolute_url }}" class="fright" style="float: right;">Criado a {{ object.created_at|timesince }} atrás</a>
                     </p>
                 </div>
                 <div class="well">
@@ -60,19 +66,24 @@
                         Respostas
                         <a href="" class="fright">Responder</a>
                     </h4>
-                    <hr />
-                    <p></p>
-                    <hr />
-                    <p>
-                        <strong></strong> <br />
-                    </p>
+                    {% for reply in object.replies.all %}
+                        <hr />
+                        {% filter linebreaks %}
+                            <strong>{{ reply.author }}</strong> disse à {{ reply.created_at|timesince }} atrás:
+                            {{ reply.reply }}
+                        {% endfilter %}
+                    {% endfor %}
                     <hr>
                     <form method="post" class="pure-form pure-form-stacked" id="add_comment">
                         <fieldset>
-                            <div class="pure-control-group">
-                                <label for="password">Responder</label>
-                                <textarea cols="40" rows="4"></textarea>
-                            </div>
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="pure-control-group">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {{ field.errors }}
+                                </div>
+                            {% endfor %}
                             <div class="pure-controls">
                                 <button type="submit" class="pure-button pure-button-primary">Enviar</button>
                             </div>
