@@ -1,7 +1,9 @@
-from django.shortcuts import render
+import json
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View, ListView, DetailView
 from django.contrib import messages
-from .models import Thread
+from django.http import HttpResponse
+from .models import Thread, Reply
 from .forms import ReplyForm
 
 #class ThreadView(View):
@@ -72,6 +74,24 @@ class ThreadDetailView(DetailView):
         return self.render_to_response(context)
 
 
+class ReplyCorrectView(View):
+    correct = True
+
+    def get(self, request, pk):
+        reply = get_object_or_404(Reply, pk=pk, thread__author=request.user)
+        reply.correct = self.correct
+        reply.save()
+        message = 'Resposta atualizada com sucesso'
+        if request.is_ajax():
+            data = {'sucess': True, 'message': message}
+            return HttpResponse(json.dumps(data), mimetype='application/json')
+        else:
+            messages.success(request, message)
+            return redirect(reply.thread.get_absolute_url())
+
+
 
 index = ThreadListView.as_view()
 thread = ThreadDetailView.as_view()
+reply_correct = ReplyCorrectView.as_view()
+reply_incorrect = ReplyCorrectView.as_view(correct=False)
